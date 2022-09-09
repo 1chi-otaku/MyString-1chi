@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 using namespace std;
-//Commit
 class MyString {
 	char* String;
 	int Length; 
