@@ -8,6 +8,7 @@ public:
 	MyString(); // Конструкторы по умолчанию.
 	MyString(unsigned int);
 	MyString(const char*);
+	MyString(const MyString&); //Конструктор копирования
 	~MyString(); // Деструктор.
 	void MyStrCpy(const MyString& obj); //Методы копирования строк.
 	void MyStrCpy(const char* string, int size);
@@ -21,6 +22,7 @@ public:
 	int MyStrCmp(MyString& b); // Метод сравнения строк.
 	bool MyStrStr(const char* str); // Метод поиска подстроки в строке.
 	static int GetCount(); // Геттер получения статического поля Count, указывающего на кол-во созданных объектов класса MyString.
+
 	
 };
 MyString::MyString() {
@@ -38,6 +40,12 @@ MyString::MyString(const char* string) {
 	Length = MyStrLen(string);
 	String = nullptr;
 	this->MyStrCpy(string, Length);
+}
+MyString::MyString(const MyString& temp) {
+	String = new char[MyStrLen(temp.String) + 1];
+	MyStrCpy(temp);
+	Length = temp.Length;
+	Count++;
 }
 MyString::~MyString() {
 	Count--;
@@ -171,53 +179,9 @@ bool MyString:: MyStrStr(const char* str) {
 int MyString::Count = 0;
 
 int main() {
-
-	MyString str1;
-	MyString str2("Once upon a time");
-	str1.Init();
-	cout << endl;
-	str1.Print();
+	MyString str ("Hello!");
+	MyString str2(str);
 	str2.Print();
-	cout << endl;
-	cout << "mystrcpy test: " << endl;
-	str1.MyStrCpy(str2);
-	str1.Print();
-	str2.Print();
-	cout << endl;
-	cout << "mystrstr test: " << endl;
-	cout << "my str str waiting 1 - " << str1.MyStrStr("time");
-	cout << endl;
-	cout << "mystrchar test: " << endl;
-	cout << "my str char waiting 2 - " << str1.MyChr('c');
-	cout << endl;
-	cout << "my str char waiting -1 - " << str1.MyChr('h');
-	cout << endl;
-	cout << "mystrlen test: " << endl;
-	cout << "mystrlen - " << str1.MyStrLen() << " " << str2.MyStrLen();
-	cout << endl;
-	cout << "mystrcat test: " << endl;
-	str2.Init();
-	cout << endl;
-	str1.MyStrCat(str2);
-	cout << endl;
-	str1.Print();
-	cout << endl;
-	cout << "mydelchr test - a deleted " << endl;
-	str1.MyDelChr('a');
-	str1.Print();
-	cout << endl;
-	MyString str3("3");
-	MyString str4("4");
-	cout << "str compare test" << endl;
-	cout << "waiting 0 - " << str3.MyStrCmp(str4);
-	cout << endl;
-	str3.MyStrCpy("30");
-	cout << "waiting 1 - " << str3.MyStrCmp(str4);
-	cout << endl;
-	str4.MyStrCpy("300");
-	cout << "waiting -1 - " << str3.MyStrCmp(str4);
-	cout << endl << endl;
-	cout << "number of objects - " << MyString::GetCount();
 
 	return 0;
 }
