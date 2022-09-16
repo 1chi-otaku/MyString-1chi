@@ -23,6 +23,8 @@ public:
 	bool MyStrStr(const char* str); // Метод поиска подстроки в строке.
 	static int GetCount(); // Геттер получения статического поля Count, указывающего на кол-во созданных объектов класса MyString.
 
+	MyString& operator=(const MyString& obj); // Перегрузка оператора присваивания.
+	char operator[](int index); // Перегрузка []
 	
 };
 MyString::MyString() {
@@ -174,14 +176,29 @@ bool MyString:: MyStrStr(const char* str) {
 	}
 	return 0;
 }
+char MyString::operator[](int index) {
+	if (index >= 0 && index << MyStrLen(String))
+		return String[index];
+	return '\0';
+;}
 
-
+MyString& MyString::operator=(const MyString& obj) {
+	if (this == &obj) return *this;
+	if (String != nullptr) delete[]String;
+	String = new char[MyStrLen(obj.String) + 1];
+	Length = obj.Length;
+	for (int i = 0; i < MyStrLen(String); i++)
+	{
+		String[i] = obj.String[i];
+	}
+	return *this;
+}
 int MyString::Count = 0;
 
 int main() {
 	MyString str ("Hello!");
-	MyString str2(str);
-	str2.Print();
-
+	MyString str2;
+	
+	
 	return 0;
 }
