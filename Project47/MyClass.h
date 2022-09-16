@@ -1,4 +1,5 @@
 ﻿#pragma once
+//
 class MyString {
 	char* String;
 	int Length;
