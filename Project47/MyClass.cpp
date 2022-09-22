@@ -18,6 +18,8 @@ MyString::MyString(const char* string) {
 	String = nullptr;
 	this->MyStrCpy(string, Length);
 }
+
+
 MyString::MyString(const MyString& temp) {
 	String = new char[MyStrLen(temp.String) + 1];
 	MyStrCpy(temp);
@@ -27,6 +29,15 @@ MyString::MyString(const MyString& temp) {
 MyString::~MyString() {
 	Count--;
 	if (String != nullptr)delete[]String;
+}
+MyString::MyString(MyString&& obj2)
+{
+	String = obj2.String;
+	obj2.String = nullptr;
+	
+	Length = obj2.Length;
+	obj2.Length = 0;
+
 }
 void MyString::MyStrCpy(const MyString& obj) {
 	this->Length = obj.Length;
@@ -157,7 +168,7 @@ char MyString::operator[](int index) {
 	return '\0';
 	;
 }
-MyString& MyString::operator=(const MyString& obj) {
+MyString& MyString::operator=(const MyString& obj){
 	if (this == &obj) return *this;
 	if (String != nullptr) delete[]String;
 	String = new char[MyStrLen(obj.String) + 1];
@@ -166,6 +177,17 @@ MyString& MyString::operator=(const MyString& obj) {
 	{
 		String[i] = obj.String[i];
 	}
+	return *this;
+}
+MyString& MyString::operator=(MyString&& obj2)
+{
+	if (String != nullptr)delete[]String;
+	String = obj2.String;
+	obj2.String = nullptr;
+
+	Length = obj2.Length;
+	obj2.Length = 0;
+
 	return *this;
 }
 void MyString::operator()()const {

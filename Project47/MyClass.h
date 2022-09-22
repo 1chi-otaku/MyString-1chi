@@ -1,5 +1,6 @@
 ﻿#pragma once
-//
+#include <iostream>;
+using namespace std;
 class MyString {
 	char* String;
 	int Length;
@@ -8,8 +9,24 @@ public:
 	MyString(); // Конструкторы по умолчанию.
 	MyString(unsigned int);
 	MyString(const char*);
+	MyString(initializer_list <char> a) { // Списковая инициализация.
+
+		Length = a.size();
+		String = new char[Length];
+
+		for (auto i = a.begin(); i != a.end(); i++)
+		{
+			*String = *i;
+			String++;
+		}
+		String -= Length;
+
+		Count++;
+
+	} 
 	MyString(const MyString&); //Конструктор копирования
 	~MyString(); // Деструктор.
+	MyString(MyString&& obj2); // Конструктор переноса.
 	void MyStrCpy(const MyString& obj); //Методы копирования строк.
 	void MyStrCpy(const char* string, int size);
 	void MyStrCat(MyString& b); // Метод конкатенации.
@@ -24,6 +41,7 @@ public:
 	static int GetCount(); // Геттер получения статического поля Count, указывающего на кол-во созданных объектов класса MyString.
 	void operator()()const;
 	MyString& operator=(const MyString& obj); // Перегрузка оператора присваивания.
+	MyString& operator=(MyString&& obj2);
 	char operator[](int index); // Перегрузка []
 	operator int()const { //Перегрузка преобразования int
 		return Length;
@@ -31,5 +49,6 @@ public:
 	operator const char* ()const { //Перегрузка преобразования char*
 		return String;
 	}
+
 
 };

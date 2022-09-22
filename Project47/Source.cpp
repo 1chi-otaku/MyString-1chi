@@ -4,14 +4,16 @@ using namespace std;
 
 int main() {
 	MyString str ("Hello!");
-	MyString str2("'Sup!");
-	str = str2;
-	str();
-
-	for (int i = 0; i < strlen(str); i++)
-	{
-		cout << str[i];
-	}
 	
+
+
+	MyString str2 = move(str);
+
+	str2();
+
+
+	MyString str3{ 'H', 'e', 'l', 'l', 'o', '!', '\0' };
+
+	str3();
 	return 0;
 }
