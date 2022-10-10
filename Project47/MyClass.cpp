@@ -1,11 +1,12 @@
 ﻿#include "MyClass.h"
 #include <iostream>
+#include "Exception.h"
 using namespace std;
 
 MyString::MyString() {
 	Count++;
 	Length = 80;
-	String = new char[Length + 1];
+	String = nullptr;
 }
 MyString::MyString(unsigned int size) {
 	Count++;
@@ -40,6 +41,9 @@ MyString::MyString(MyString&& obj2)
 
 }
 void MyString::MyStrCpy(const MyString& obj) {
+	if (this == &obj) {
+		throw new MyStrCpyException("The objects are the same!");
+	}
 	this->Length = obj.Length;
 	if (String != nullptr)delete[]this->String;
 	this->String = new char[Length + 1];
@@ -57,8 +61,10 @@ void MyString::MyStrCpy(const char* string, int size) {
 }
 void MyString::MyStrCat(MyString& b) {
 	int AllSize = Length + b.Length; //Определение общего размера двух строк.
-	char* temp;
-	temp = new char[Length + 1];
+	if (AllSize == Length) {
+		throw new MyStrCatException("The length of second string is 0.");
+	}
+	char* temp = new char[Length + 1];
 	for (int i = 0; i < Length; i++)	//temp для сохранения строки объекта класса для дальнейшего очищения памяти.
 	{
 		temp[i] = this->String[i];
@@ -112,6 +118,9 @@ void MyString::Init() {
 	this->MyStrCpy(buff, MyStrLen(buff));
 }
 void MyString::Print() {
+	if (String == nullptr) {
+		throw new MyStrPrintException("There is no string to print..");
+	}
 	cout << String << endl;
 }
 int MyString::MyStrLen() {
@@ -169,7 +178,9 @@ char MyString::operator[](int index) {
 	;
 }
 MyString& MyString::operator=(const MyString& obj){
-	if (this == &obj) return *this;
+	if (this == &obj) {
+		return *this;
+	}
 	if (String != nullptr) delete[]String;
 	String = new char[MyStrLen(obj.String) + 1];
 	Length = obj.Length;
@@ -191,6 +202,9 @@ MyString& MyString::operator=(MyString&& obj2)
 	return *this;
 }
 void MyString::operator()()const {
+	if (String == nullptr) {
+		throw new MyStrPrintException("There is no string to print..");
+	}
 	cout << String << "\n" << Length << "\n" << Count << "\n";
 }
 
